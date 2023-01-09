@@ -1,29 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const addressSchema = new Schema({
-	streetName: {
-		type: String,
-		required: true,
-	},
-	buildingNumber: {
-		type: Number,
-		required: true,
-	},
-	apartamentNumber: {
-		type: Number,
-		required: false,
-	},
-	zipCode: {
-		type: String,
-		required: true,
-	},
-	City: {
-		type: String,
-		required: true,
-	},
-})
-
 const employeeSchema = new Schema(
 	{
 		firstName: {
@@ -55,9 +32,29 @@ const employeeSchema = new Schema(
 			required: true,
 		},
 		address: {
-			type: addressSchema,
-			required: true,
+			streetName: {
+				type: String,
+				required: true,
+			},
+			buildingNumber: {
+				type: Number,
+				required: true,
+			},
+			apartamentNumber: {
+				type: Number,
+				required: false,
+			},
+			zipCode: {
+				type: String,
+				required: true,
+			},
+			city: {
+				type: String,
+				required: true,
+			},
 		},
 	},
 	{ timestamps: true }
 )
+
+module.exports = mongoose.model('Employee', employeeSchema)
