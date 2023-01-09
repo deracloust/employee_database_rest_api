@@ -8,7 +8,10 @@ const app = express()
 const db = process.env.MONGODB_ATLAS_CONNECTION_STRING
 const port = process.env.APP_PORT
 
+const mainRoutes = require('./routes/main')
+
 app.use(bodyParser.json())
+app.use(mainRoutes)
 
 const connectDB = async () => {
 	try {
