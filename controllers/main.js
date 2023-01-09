@@ -11,7 +11,36 @@ exports.getEmployees = async (req, res, next) => {
 			err.statusCode = 500
 			res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
-				message: 'Searching employees failed!',
+				message: 'Employees search unsuccessful!',
+			})
+		}
+		next()
+	}
+}
+
+exports.getEmployee = async (req, res, next) => {
+	const employeeId = req.params.id
+
+	try {
+		const employee = await Employee.findById(employeeId)
+
+		if (!employee) {
+			return res.status(404).json({
+				errorStatus: 404,
+				message: `Employee with id: ${employeeId.toString()} not found in database!`,
+			})
+		}
+
+		return res.status(200).json({
+			message: 'Employee found!',
+			employee: employee,
+		})
+	} catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+			res.status(err.statusCode).json({
+				errorStatus: err.statusCode,
+				message: 'Employee search unsuccessful!',
 			})
 		}
 		next()
@@ -30,7 +59,7 @@ exports.createEmployee = async (req, res, next) => {
 		address: {
 			streetName: req.body.address.streetName,
 			buildingNumber: req.body.address.buildingNumber,
-			aparatamentNumber: req.body.address.aparatamentNumber || null,
+			apartamentNumber: req.body.address.apartamentNumber,
 			zipCode: req.body.address.zipCode,
 			city: req.body.address.city,
 		},
