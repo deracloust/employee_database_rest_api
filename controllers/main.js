@@ -22,6 +22,13 @@ exports.getEmployees = async (req, res, next) => {
 exports.getEmployee = async (req, res, next) => {
 	const employeeId = req.params.id
 
+	if (!mongoose.isValidObjectId(employeeId)) {
+		return res.status(404).json({
+			errorStatus: 404,
+			message: 'Enter a valid ObjectID!',
+		})
+	}
+
 	try {
 		const employee = await Employee.findById(employeeId)
 
@@ -96,6 +103,13 @@ exports.createEmployee = async (req, res, next) => {
 exports.modifyEntireEmployee = async (req, res, next) => {
 	const employeeId = req.params.id
 
+	if (!mongoose.isValidObjectId(employeeId)) {
+		return res.status(404).json({
+			errorStatus: 404,
+			message: 'Enter a valid ObjectID!',
+		})
+	}
+
 	try {
 		const employee = await Employee.findById(employeeId)
 
@@ -138,7 +152,7 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 					err.statusCode = 500
 					res.status(err.statusCode).json({
 						errorStatus: err.statusCode,
-						message: 'Creating employee failed!',
+						message: 'Employee with fallowing id not found! Creating new employee failed!',
 					})
 				}
 				next()
@@ -169,7 +183,8 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 			err.statusCode = 500
 			res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
-				message: 'Creating employee failed!',
+				message:
+					'Creating employee failed! You picked PUT method, so you need to send all data for the updated employee object. If you want to update specific data, use PATCH method.',
 			})
 		}
 		next()
