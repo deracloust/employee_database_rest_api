@@ -10,4 +10,6 @@ router.get('/employees/:id', mainController.getEmployee)
 
 router.post('/employees', mainController.createEmployee)
 
+router.put('/employees/:id', mainController.modifyEntireEmployee)
+
 module.exports = router
