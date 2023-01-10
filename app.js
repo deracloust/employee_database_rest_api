@@ -5,7 +5,7 @@ const dotenv = require('dotenv').config()
 const bodyParser = require('body-parser')
 
 const app = express()
-const db = process.env.MONGODB_ATLAS_CONNECTION_STRING
+const db = `mongodb://${process.env.ROOT_USERNAME}:${process.env.ROOT_PASSWORD}@${process.env.HOST_IP}:${process.env.DB_PORT}`
 const port = process.env.APP_PORT
 
 const mainRoutes = require('./routes/main')
