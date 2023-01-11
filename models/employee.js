@@ -21,7 +21,8 @@ const employeeSchema = new Schema(
 		},
 		dateOfHire: {
 			type: Date,
-			default: Date.now,
+			default: Date.now(),
+			required: true,
 		},
 		department: {
 			type: String,
@@ -51,6 +52,16 @@ const employeeSchema = new Schema(
 			city: {
 				type: String,
 				required: true,
+			},
+		},
+		details: {
+			createdBy: {
+				type: mongoose.Types.ObjectId,
+				required: true,
+			},
+			lastModyfiedBy: {
+				type: mongoose.Types.ObjectId,
+				required: false,
 			},
 		},
 	},

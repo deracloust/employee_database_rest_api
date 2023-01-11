@@ -32,6 +32,10 @@ exports.login = async (req, res, next) => {
 	const login = req.body.login
 	const password = req.body.password
 
+	if (login === undefined || password === undefined) {
+		return res.status(422).json({ message: `Enter login and password!` })
+	}
+
 	try {
 		const admin = await Admin.findOne({ login: login })
 

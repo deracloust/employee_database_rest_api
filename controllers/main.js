@@ -1,5 +1,6 @@
 const express = require('express')
 const { default: mongoose } = require('mongoose')
+const jwt = require('jsonwebtoken')
 
 const Employee = require('../models/employee')
 
@@ -54,6 +55,9 @@ exports.getEmployee = async (req, res, next) => {
 }
 
 exports.createEmployee = async (req, res, next) => {
+	const token = req.get('Authorization')
+	const decodedToken = jwt.decode(token)
+
 	const employee = new Employee({
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
@@ -68,6 +72,9 @@ exports.createEmployee = async (req, res, next) => {
 			apartamentNumber: req.body.address.apartamentNumber,
 			zipCode: req.body.address.zipCode,
 			city: req.body.address.city,
+		},
+		details: {
+			createdBy: decodedToken.adminId,
 		},
 	})
 
@@ -87,6 +94,7 @@ exports.createEmployee = async (req, res, next) => {
 			message: 'Employee with fallowing e-mail already exists!',
 		})
 	} catch (err) {
+		console.log(err)
 		if (!err.statusCode) {
 			err.statusCode = 500
 			return res.status(err.statusCode).json({
@@ -101,6 +109,8 @@ exports.modfiyEmployee = async (req, res, next) => {
 	const employeeId = req.params.id
 	const path = req.body.path
 	const value = req.body.value
+	const token = req.get('Authorization')
+	const decodedToken = jwt.decode(token)
 
 	if (!mongoose.isValidObjectId(employeeId)) {
 		return res.status(422).json({
@@ -127,6 +137,7 @@ exports.modfiyEmployee = async (req, res, next) => {
 		}
 
 		employee[path] = value
+		employee.details.lastModyfiedBy = decodedToken.adminId
 		await employee.save()
 
 		return res
@@ -145,6 +156,8 @@ exports.modfiyEmployee = async (req, res, next) => {
 
 exports.modifyEntireEmployee = async (req, res, next) => {
 	const employeeId = req.params.id
+	const token = req.get('Authorization')
+	const decodedToken = jwt.decode(token)
 
 	if (!mongoose.isValidObjectId(employeeId)) {
 		return res.status(422).json({
@@ -172,6 +185,9 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 					apartamentNumber: req.body.address.apartamentNumber,
 					zipCode: req.body.address.zipCode,
 					city: req.body.address.city,
+				},
+				details: {
+					createdBy: decodedToken.adminId,
 				},
 			})
 
@@ -213,6 +229,7 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 		employee.address.apartamentNumber = req.body.address.apartamentNumber
 		employee.address.zipCode = req.body.address.zipCode
 		employee.address.city = req.body.address.city
+		employee.details.lastModyfiedBy = decodedToken.adminId
 
 		await employee.save()
 
