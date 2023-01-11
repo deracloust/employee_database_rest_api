@@ -7,14 +7,14 @@ const mainController = require('../controllers/main')
 
 router.get('/employees', isAuth, mainController.getEmployees)
 
-router.get('/employees/:id', mainController.getEmployee)
+router.get('/employees/:id', isAuth, mainController.getEmployee)
 
-router.post('/employees', mainController.createEmployee)
+router.post('/employees', isAuth, mainController.createEmployee)
 
-router.put('/employees/:id', mainController.modifyEntireEmployee)
+router.put('/employees/:id', isAuth, mainController.modifyEntireEmployee)
 
-router.patch('/employees/:id', mainController.modfiyEmployee)
+router.patch('/employees/:id', isAuth, mainController.modfiyEmployee)
 
-router.delete('/employees/:id', mainController.deleteEmployee)
+router.delete('/employees/:id', isAuth, mainController.deleteEmployee)
 
 module.exports = router
