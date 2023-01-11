@@ -12,4 +12,6 @@ router.post('/employees', mainController.createEmployee)
 
 router.put('/employees/:id', mainController.modifyEntireEmployee)
 
+router.patch('/employees/:id', mainController.modfiyEmployee)
+
 module.exports = router

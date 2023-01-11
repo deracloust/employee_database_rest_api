@@ -35,7 +35,7 @@ exports.getEmployee = async (req, res, next) => {
 		if (!employee) {
 			return res.status(404).json({
 				errorStatus: 404,
-				message: `Employee with id: ${employeeId.toString()} not found in database!`,
+				message: `Employee '${employeeId.toString()}' not found in database!`,
 			})
 		}
 
@@ -100,6 +100,53 @@ exports.createEmployee = async (req, res, next) => {
 	}
 }
 
+exports.modfiyEmployee = async (req, res, next) => {
+	const employeeId = req.params.id
+	const path = req.body.path
+	const value = req.body.value
+
+	if (!mongoose.isValidObjectId(employeeId)) {
+		return res.status(404).json({
+			errorStatus: 404,
+			message: 'Enter a valid ObjectID!',
+		})
+	}
+
+	try {
+		const employee = await Employee.findById(employeeId)
+
+		if (!employee) {
+			return res.status(404).json({
+				errorStatus: 404,
+				message: `Employee '${employeeId.toString()}' not found in database! Can not update the employee data!`,
+			})
+		}
+
+		if (!employee[path]) {
+			return res.status(404).json({
+				errorStatus: 404,
+				message: `Entered employee propery not found! Make sure to enter property that exists!`,
+			})
+		}
+
+		employee[path] = value
+		await employee.save()
+
+		return res
+			.status(200)
+			.json({ message: `Propery '${path}' of employee ${employeeId} updated successfully! New value: ${value}` })
+	} catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+			res.status(err.statusCode).json({
+				errorStatus: err.statusCode,
+				message: 'Update employee data failed!',
+			})
+		}
+		next()
+	}
+}
+
 exports.modifyEntireEmployee = async (req, res, next) => {
 	const employeeId = req.params.id
 
@@ -145,14 +192,14 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 
 				return res.status(403).json({
 					errorStatus: 403,
-					message: 'Employee with fallowing e-mail already exists!',
+					message: `Employee '${employeeId.toString()}' not found in database! An attempt was made to create, but employee with fallowing e-mail already exists!`,
 				})
 			} catch (err) {
 				if (!err.statusCode) {
 					err.statusCode = 500
 					res.status(err.statusCode).json({
 						errorStatus: err.statusCode,
-						message: 'Employee with fallowing id not found! Creating new employee failed!',
+						message: `Employee '${employeeId.toString()}' not found in database! Creating new employee failed!`,
 					})
 				}
 				next()
@@ -184,7 +231,7 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 			res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
 				message:
-					'Creating employee failed! You picked PUT method, so you need to send all data for the updated employee object. If you want to update specific data, use PATCH method.',
+					'Modyfing employee failed! You picked PUT method, so you need to send all data for the updated employee object. If you want to update specific data, use PATCH method.',
 			})
 		}
 		next()
