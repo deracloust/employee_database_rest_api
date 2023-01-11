@@ -42,7 +42,7 @@ exports.login = async (req, res, next) => {
 		const authenticated = await bcrypt.compare(password, admin.password)
 
 		if (!authenticated) {
-			return res.status(403).json({ message: 'Authentication failed! Enter correct password!' })
+			return res.status(401).json({ message: 'Authentication failed! Enter correct password!' })
 		}
 
 		const token = jwt.sign({ login: login, adminId: admin._id.toString() }, 'SuperSecret!', {

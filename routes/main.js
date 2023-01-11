@@ -2,9 +2,10 @@ const express = require('express')
 
 const router = express.Router()
 
+const isAuth = require('../middleware/auth')
 const mainController = require('../controllers/main')
 
-router.get('/employees', mainController.getEmployees)
+router.get('/employees', isAuth, mainController.getEmployees)
 
 router.get('/employees/:id', mainController.getEmployee)
 
