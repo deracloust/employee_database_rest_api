@@ -7,7 +7,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD}
     ports:
-      - ${PORT}:${PORT}
+      - ${DB_PORT}:${DB_PORT}
     volumes:
       - mongodb_data_container:/data/db
 
