@@ -10,12 +10,31 @@ const port = process.env.APP_PORT
 
 const mainRoutes = require('./routes/main')
 
+app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+
+app.use((req, res, next) => {
+	res.header('Access-Control-Allow-Origin', '*')
+	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+
+	if (req.method == 'OPTIONS') {
+		res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE')
+		return res.status(200).json({
+			message: 'Allowed HTTP methods: GET, POST, PUT, PATCH, DELETE',
+		})
+	}
+
+	next()
+})
+
 app.use(mainRoutes)
+app.use((req, res, next) => {
+	return res.status(404).json({ message: 'NOT FOUND!' })
+})
 
 const connectDB = async () => {
 	try {
-		await mongoose.set('strictQuery', false)
+		mongoose.set('strictQuery', false)
 		await mongoose.connect(db)
 		console.log('Connection to database successful!')
 		app.listen(port)
