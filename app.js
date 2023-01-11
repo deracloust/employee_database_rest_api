@@ -8,6 +8,7 @@ const app = express()
 const db = `mongodb://${process.env.ROOT_USERNAME}:${process.env.ROOT_PASSWORD}@${process.env.HOST_IP}:${process.env.DB_PORT}`
 const port = process.env.APP_PORT
 
+const authRoutes = require('./routes/auth')
 const mainRoutes = require('./routes/main')
 
 app.use(express.urlencoded({ extended: true }))
@@ -27,12 +28,14 @@ app.use((req, res, next) => {
 	next()
 })
 
-app.use(mainRoutes)
+app.use('/', mainRoutes)
+app.use('/auth', authRoutes)
+
 app.use((req, res, next) => {
 	return res.status(404).json({ message: 'NOT FOUND!' })
 })
 
-const connectDB = async () => {
+const startApp = async () => {
 	try {
 		mongoose.set('strictQuery', false)
 		await mongoose.connect(db)
@@ -44,4 +47,4 @@ const connectDB = async () => {
 	}
 }
 
-connectDB()
+startApp()
