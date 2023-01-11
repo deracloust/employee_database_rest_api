@@ -23,8 +23,8 @@ exports.getEmployee = async (req, res, next) => {
 	const employeeId = req.params.id
 
 	if (!mongoose.isValidObjectId(employeeId)) {
-		return res.status(404).json({
-			errorStatus: 404,
+		return res.status(422).json({
+			errorStatus: 422,
 			message: 'Enter a valid ObjectID!',
 		})
 	}
@@ -106,8 +106,8 @@ exports.modfiyEmployee = async (req, res, next) => {
 	const value = req.body.value
 
 	if (!mongoose.isValidObjectId(employeeId)) {
-		return res.status(404).json({
-			errorStatus: 404,
+		return res.status(422).json({
+			errorStatus: 422,
 			message: 'Enter a valid ObjectID!',
 		})
 	}
@@ -123,8 +123,8 @@ exports.modfiyEmployee = async (req, res, next) => {
 		}
 
 		if (!employee[path]) {
-			return res.status(404).json({
-				errorStatus: 404,
+			return res.status(422).json({
+				errorStatus: 422,
 				message: `Entered employee propery not found! Make sure to enter property that exists!`,
 			})
 		}
@@ -151,8 +151,8 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 	const employeeId = req.params.id
 
 	if (!mongoose.isValidObjectId(employeeId)) {
-		return res.status(404).json({
-			errorStatus: 404,
+		return res.status(422).json({
+			errorStatus: 422,
 			message: 'Enter a valid ObjectID!',
 		})
 	}
