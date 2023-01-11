@@ -20,12 +20,46 @@ exports.singup = async (req, res, next) => {
 	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
-			res.status(err.statusCode).json({
+			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
-				message: 'Employee search unsuccessful!',
+				message: 'Creating admin failed!',
 			})
 		}
 	}
 }
 
-exports.login = async (req, res, next) => {}
+exports.login = async (req, res, next) => {
+	const login = req.body.login
+	const password = req.body.password
+
+	try {
+		const admin = await Admin.findOne({ login: login })
+
+		if (!admin) {
+			return res.status(422).json({ message: `Admin with login: '${login}' not found!` })
+		}
+
+		const authenticated = await bcrypt.compare(password, admin.password)
+
+		if (!authenticated) {
+			return res.status(403).json({ message: 'Authentication failed! Enter correct password!' })
+		}
+
+		const token = jwt.sign({ login: login, adminId: admin._id.toString() }, 'SuperSecret!', {
+			expiresIn: '1h',
+		})
+		return res.status(200).json({
+			message: 'Authentication successfull!',
+			adminId: admin._id,
+			token: token,
+		})
+	} catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+			return res.status(err.statusCode).json({
+				errorStatus: err.statusCode,
+				message: 'Loging in failed!',
+			})
+		}
+	}
+}

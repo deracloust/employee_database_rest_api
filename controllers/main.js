@@ -10,12 +10,11 @@ exports.getEmployees = async (req, res, next) => {
 	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
-			res.status(err.statusCode).json({
+			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
 				message: 'Employees search unsuccessful!',
 			})
 		}
-		next()
 	}
 }
 
@@ -46,12 +45,11 @@ exports.getEmployee = async (req, res, next) => {
 	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
-			res.status(err.statusCode).json({
+			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
 				message: 'Employee search unsuccessful!',
 			})
 		}
-		next()
 	}
 }
 
@@ -91,12 +89,11 @@ exports.createEmployee = async (req, res, next) => {
 	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
-			res.status(err.statusCode).json({
+			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
 				message: 'Creating employee failed!',
 			})
 		}
-		next()
 	}
 }
 
@@ -138,12 +135,11 @@ exports.modfiyEmployee = async (req, res, next) => {
 	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
-			res.status(err.statusCode).json({
+			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
 				message: 'Update employee data failed!',
 			})
 		}
-		next()
 	}
 }
 
@@ -197,12 +193,11 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 			} catch (err) {
 				if (!err.statusCode) {
 					err.statusCode = 500
-					res.status(err.statusCode).json({
+					return res.status(err.statusCode).json({
 						errorStatus: err.statusCode,
 						message: `Employee '${employeeId.toString()}' not found in database! Creating new employee failed!`,
 					})
 				}
-				next()
 			}
 		}
 
@@ -228,13 +223,12 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
-			res.status(err.statusCode).json({
+			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
 				message:
 					'Modyfing employee failed! You picked PUT method, so you need to send all data for the updated employee object. If you want to update specific data, use PATCH method.',
 			})
 		}
-		next()
 	}
 }
 
@@ -264,11 +258,10 @@ exports.deleteEmployee = async (req, res, next) => {
 	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
-			res.status(err.statusCode).json({
+			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
 				message: 'Deleting employee failed!',
 			})
 		}
-		next()
 	}
 }
