@@ -14,4 +14,6 @@ router.put('/employees/:id', mainController.modifyEntireEmployee)
 
 router.patch('/employees/:id', mainController.modfiyEmployee)
 
+router.delete('/employees/:id', mainController.deleteEmployee)
+
 module.exports = router

@@ -237,3 +237,38 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 		next()
 	}
 }
+
+exports.deleteEmployee = async (req, res, next) => {
+	const employeeId = req.params.id
+
+	if (!mongoose.isValidObjectId(employeeId)) {
+		return res.status(422).json({
+			errorStatus: 422,
+			message: 'Enter a valid ObjectID!',
+		})
+	}
+
+	try {
+		const employee = await Employee.findById(employeeId)
+
+		if (!employee) {
+			return res.status(404).json({
+				errorStatus: 404,
+				message: `Employee '${employeeId.toString()}' not found in database! Can not delete employee!`,
+			})
+		}
+
+		await employee.delete()
+
+		return res.status(200).json({ message: `Employee '${employeeId}' deleted successfully!` })
+	} catch (err) {
+		if (!err.statusCode) {
+			err.statusCode = 500
+			res.status(err.statusCode).json({
+				errorStatus: err.statusCode,
+				message: 'Deleting employee failed!',
+			})
+		}
+		next()
+	}
+}
