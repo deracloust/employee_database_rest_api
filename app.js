@@ -12,19 +12,18 @@ const authRoutes = require('./routes/auth')
 const mainRoutes = require('./routes/main')
 
 app.use(express.urlencoded({ extended: true }))
-app.use(bodyParser.json())
 
-app.use((err, req, res, next) => {
-
-    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-        return res.status(400).json({
-			errorStatus: 400,
-			errorMessage: 'Invalid request has been send!'
-		});
-    }
-
-    next();
-});
+app.use((req, res, next) => {
+	bodyParser.json()(req, res, err => {
+		if (err) {
+			return res.status(400).json({
+				errorStatus: 400,
+				errorMessage: 'Invalid request has been send!',
+			})
+		}
+		next()
+	})
+})
 
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*')
