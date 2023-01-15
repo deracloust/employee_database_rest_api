@@ -13,7 +13,7 @@ exports.getEmployees = async (req, res, next) => {
 			err.statusCode = 500
 			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
-				message: 'Employees search unsuccessful!',
+				errorMessage: 'Employees search unsuccessful!',
 			})
 		}
 	}
@@ -25,7 +25,7 @@ exports.getEmployee = async (req, res, next) => {
 	if (!mongoose.isValidObjectId(employeeId)) {
 		return res.status(422).json({
 			errorStatus: 422,
-			message: 'Enter a valid ObjectID!',
+			errorMessage: 'Enter a valid ObjectID!',
 		})
 	}
 
@@ -35,7 +35,7 @@ exports.getEmployee = async (req, res, next) => {
 		if (!employee) {
 			return res.status(404).json({
 				errorStatus: 404,
-				message: `Employee '${employeeId.toString()}' not found in database!`,
+				errorMessage: `Employee '${employeeId.toString()}' not found in database!`,
 			})
 		}
 
@@ -48,7 +48,7 @@ exports.getEmployee = async (req, res, next) => {
 			err.statusCode = 500
 			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
-				message: 'Employee search unsuccessful!',
+				errorMessage: 'Employee search unsuccessful!',
 			})
 		}
 	}
@@ -91,7 +91,7 @@ exports.createEmployee = async (req, res, next) => {
 
 		return res.status(403).json({
 			errorStatus: 403,
-			message: 'Employee with fallowing e-mail already exists!',
+			errorMessage: 'Employee with fallowing e-mail already exists!',
 		})
 	} catch (err) {
 		console.log(err)
@@ -99,7 +99,7 @@ exports.createEmployee = async (req, res, next) => {
 			err.statusCode = 500
 			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
-				message: 'Creating employee failed!',
+				errorMessage: 'Creating employee failed!',
 			})
 		}
 	}
@@ -115,7 +115,7 @@ exports.modfiyEmployee = async (req, res, next) => {
 	if (!mongoose.isValidObjectId(employeeId)) {
 		return res.status(422).json({
 			errorStatus: 422,
-			message: 'Enter a valid ObjectID!',
+			errorMessage: 'Enter a valid ObjectID!',
 		})
 	}
 
@@ -125,14 +125,14 @@ exports.modfiyEmployee = async (req, res, next) => {
 		if (!employee) {
 			return res.status(404).json({
 				errorStatus: 404,
-				message: `Employee '${employeeId.toString()}' not found in database! Can not update the employee data!`,
+				errorMessage: `Employee '${employeeId.toString()}' not found in database! Can not update the employee data!`,
 			})
 		}
 
 		if (!employee[path]) {
 			return res.status(422).json({
 				errorStatus: 422,
-				message: `Entered employee propery not found! Make sure to enter property that exists!`,
+				errorMessage: `Entered employee propery not found! Make sure to enter property that exists!`,
 			})
 		}
 
@@ -148,7 +148,7 @@ exports.modfiyEmployee = async (req, res, next) => {
 			err.statusCode = 500
 			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
-				message: 'Update employee data failed!',
+				errorMessage: 'Update employee data failed!',
 			})
 		}
 	}
@@ -162,7 +162,7 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 	if (!mongoose.isValidObjectId(employeeId)) {
 		return res.status(422).json({
 			errorStatus: 422,
-			message: 'Enter a valid ObjectID!',
+			errorMessage: 'Enter a valid ObjectID!',
 		})
 	}
 
@@ -204,14 +204,14 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 
 				return res.status(403).json({
 					errorStatus: 403,
-					message: `Employee '${employeeId.toString()}' not found in database! An attempt was made to create, but employee with fallowing e-mail already exists!`,
+					errorMessage: `Employee '${employeeId.toString()}' not found in database! An attempt was made to create, but employee with fallowing e-mail already exists!`,
 				})
 			} catch (err) {
 				if (!err.statusCode) {
 					err.statusCode = 500
 					return res.status(err.statusCode).json({
 						errorStatus: err.statusCode,
-						message: `Employee '${employeeId.toString()}' not found in database! Creating new employee failed!`,
+						errorMessage: `Employee '${employeeId.toString()}' not found in database! Creating new employee failed!`,
 					})
 				}
 			}
@@ -242,7 +242,7 @@ exports.modifyEntireEmployee = async (req, res, next) => {
 			err.statusCode = 500
 			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
-				message:
+				errorMessage:
 					'Modyfing employee failed! You picked PUT method, so you need to send all data for the updated employee object. If you want to update specific data, use PATCH method.',
 			})
 		}
@@ -255,7 +255,7 @@ exports.deleteEmployee = async (req, res, next) => {
 	if (!mongoose.isValidObjectId(employeeId)) {
 		return res.status(422).json({
 			errorStatus: 422,
-			message: 'Enter a valid ObjectID!',
+			errorMessage: 'Enter a valid ObjectID!',
 		})
 	}
 
@@ -265,7 +265,7 @@ exports.deleteEmployee = async (req, res, next) => {
 		if (!employee) {
 			return res.status(404).json({
 				errorStatus: 404,
-				message: `Employee '${employeeId.toString()}' not found in database! Can not delete employee!`,
+				errorMessage: `Employee '${employeeId.toString()}' not found in database! Can not delete employee!`,
 			})
 		}
 
@@ -277,7 +277,7 @@ exports.deleteEmployee = async (req, res, next) => {
 			err.statusCode = 500
 			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
-				message: 'Deleting employee failed!',
+				errorMessage: 'Deleting employee failed!',
 			})
 		}
 	}

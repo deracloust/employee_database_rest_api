@@ -10,8 +10,8 @@ exports.singup = async (req, res, next) => {
 
 	if (!valResult.isEmpty()) {
 		return res.status(422).json({
-			errorMessage: 'You entered invalid data!',
 			errorStatus: 422,
+			errorMessage: 'You entered invalid data!',
 			invalidData: valResult.errors[0].param,
 			description: valResult.errors[0].msg,
 		})
@@ -35,7 +35,7 @@ exports.singup = async (req, res, next) => {
 			err.statusCode = 500
 			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
-				message: 'Creating admin failed!',
+				errorMessage: 'Creating admin failed!',
 			})
 		}
 	}
@@ -48,7 +48,7 @@ exports.login = async (req, res, next) => {
 	if (login === undefined || password === undefined) {
 		return res.status(422).json({
 			errorStatus: 422,
-			message: `Enter login and password!`,
+			errorMessage: `Enter login and password!`,
 		})
 	}
 
@@ -58,7 +58,7 @@ exports.login = async (req, res, next) => {
 		if (!admin) {
 			return res.status(422).json({
 				errorStatus: 422,
-				message: `Admin with login: '${login}' not found!`,
+				errorMessage: `Admin with login: '${login}' not found!`,
 			})
 		}
 
@@ -67,7 +67,7 @@ exports.login = async (req, res, next) => {
 		if (!authenticated) {
 			return res.status(401).json({
 				errorStatus: 401,
-				message: 'Authentication failed! Enter correct password!',
+				errorMessage: 'Authentication failed! Enter correct password!',
 			})
 		}
 
@@ -84,7 +84,7 @@ exports.login = async (req, res, next) => {
 			err.statusCode = 500
 			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
-				message: 'Loging in failed!',
+				errorMessage: 'Loging in failed!',
 			})
 		}
 	}
