@@ -1,9 +1,22 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+const { validationResult } = require('express-validator')
+
 const Admin = require('../models/admin')
 
 exports.singup = async (req, res, next) => {
+	const valResult = validationResult(req)
+
+	if (!valResult.isEmpty()) {
+		return res.status(422).json({
+			errorMessage: 'You entered invalid data!',
+			errorStatus: 422,
+			invalidData: valResult.errors[0].param,
+			description: valResult.errors[0].msg,
+		})
+	}
+
 	const login = req.body.login
 	const password = req.body.password
 
@@ -33,20 +46,29 @@ exports.login = async (req, res, next) => {
 	const password = req.body.password
 
 	if (login === undefined || password === undefined) {
-		return res.status(422).json({ message: `Enter login and password!` })
+		return res.status(422).json({
+			errorStatus: 422,
+			message: `Enter login and password!`,
+		})
 	}
 
 	try {
 		const admin = await Admin.findOne({ login: login })
 
 		if (!admin) {
-			return res.status(422).json({ message: `Admin with login: '${login}' not found!` })
+			return res.status(422).json({
+				errorStatus: 422,
+				message: `Admin with login: '${login}' not found!`,
+			})
 		}
 
 		const authenticated = await bcrypt.compare(password, admin.password)
 
 		if (!authenticated) {
-			return res.status(401).json({ message: 'Authentication failed! Enter correct password!' })
+			return res.status(401).json({
+				errorStatus: 401,
+				message: 'Authentication failed! Enter correct password!',
+			})
 		}
 
 		const token = jwt.sign({ login: login, adminId: admin._id.toString() }, 'SuperSecret!', {

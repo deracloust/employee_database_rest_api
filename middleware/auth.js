@@ -5,6 +5,7 @@ module.exports = (req, res, next) => {
 	if (!authHeader) {
 		return res.status(401).json({ errorStatus: 401, message: `Not authenticated!` })
 	}
+	
 	let decodedToken
 
 	try {
