@@ -1,13 +1,17 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-
-
 const Admin = require('../models/admin')
 
 exports.singup = async (req, res, next) => {
 	const login = req.body.login
 	const password = req.body.password
+
+	const admin = await Admin.findOne({ login: login })
+
+	if (admin) {
+		return res.status(422).json({ errorStatus: 422, errorMessage: 'Admin with that login already exists!'})
+	}
 
 	try {
 		const hashPassword = await bcrypt.hash(password, 15)
