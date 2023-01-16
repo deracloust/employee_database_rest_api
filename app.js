@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 		if (err) {
 			return res.status(400).json({
 				errorStatus: 400,
-				errorMessage: 'Invalid request has been send!',
+				errorMessage: 'Request body contains invalid JSON data!',
 			})
 		}
 		next()

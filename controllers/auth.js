@@ -1,22 +1,11 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-const { validationResult } = require('express-validator')
+
 
 const Admin = require('../models/admin')
 
 exports.singup = async (req, res, next) => {
-	const valResult = validationResult(req)
-
-	if (!valResult.isEmpty()) {
-		return res.status(422).json({
-			errorStatus: 422,
-			errorMessage: 'You entered invalid data!',
-			invalidData: valResult.errors[0].param,
-			description: valResult.errors[0].msg,
-		})
-	}
-
 	const login = req.body.login
 	const password = req.body.password
 

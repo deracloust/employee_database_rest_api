@@ -142,13 +142,15 @@ exports.modfiyEmployee = async (req, res, next) => {
 
 		return res
 			.status(200)
-			.json({ message: `Propery '${path}' of employee ${employeeId} updated successfully! New value: ${value}` })
+			.json({
+				message: `Propery '${path}' of employee ${employeeId} updated successfully! New value: ${employee[path]}`,
+			})
 	} catch (err) {
 		if (!err.statusCode) {
 			err.statusCode = 500
 			return res.status(err.statusCode).json({
 				errorStatus: err.statusCode,
-				errorMessage: 'Update employee data failed!',
+				errorMessage: 'Update employee data failed! Make sure you entered validate value of updated data!',
 			})
 		}
 	}
