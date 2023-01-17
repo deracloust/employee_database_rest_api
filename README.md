@@ -18,9 +18,9 @@ All of software is running in Docker containers.
 - Backend - <b>node.js</b> used with <b>express.js</b>.
 - Database - <b>mongoDB</b> used with ORM <b>Mongoose</b>.
 - Others:
-    - JSON web token,
-    - express validator,
-    - bcrypt.
+  - JSON web token,
+  - express validator,
+  - bcrypt.
 
 ## Setup
 
@@ -33,4 +33,9 @@ To run the project (tested on Debian 11):
 5. Rename `.env.example` file to `.env`.
 6. Run the containers by using `docker compose up -d` in main folder (includes `docker-compose.yml` file).
 7. When docker compose process will end you can check containers by using `docker ps -a`.
+
+![img](./img/containers.png)
+
 8. You can check the API by sending requests on the adress of the server which has installed software on.
+
+![img](./img/postman.png)
