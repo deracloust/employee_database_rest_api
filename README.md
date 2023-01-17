@@ -16,7 +16,7 @@ All of software is running in Docker containers.
 ## Technologies used
 
 - Backend - <b>node.js</b> used with <b>express.js</b>.
-- Database - <b>mongoDB</b> used with ORM <b>Mongoose</b>.
+- Database - <b>mongoDB</b> used with ODM <b>Mongoose</b>.
 - Others:
   - JSON web token,
   - express validator,
