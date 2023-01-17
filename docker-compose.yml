@@ -11,5 +11,14 @@ services:
     volumes:
       - mongodb_data_container:/data/db
 
+  api:
+    container_name: api
+    build: .
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    
 volumes:
   mongodb_data_container:

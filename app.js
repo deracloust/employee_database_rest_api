@@ -5,7 +5,7 @@ const dotenv = require('dotenv').config()
 const bodyParser = require('body-parser')
 
 const app = express()
-const db = `mongodb://${process.env.ROOT_USERNAME}:${process.env.ROOT_PASSWORD}@${process.env.HOST_IP}:${process.env.DB_PORT}`
+const db = `mongodb://${process.env.ROOT_USERNAME}:${process.env.ROOT_PASSWORD}@mongodb:${process.env.DB_PORT}`
 const port = process.env.APP_PORT
 
 const authRoutes = require('./routes/auth')
