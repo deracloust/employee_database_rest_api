@@ -18,6 +18,7 @@ All of software is running in Docker containers.
 - Backend - <b>node.js</b> used with <b>express.js</b>.
 - Database - <b>mongoDB</b> used with ODM <b>Mongoose</b>.
 - Others:
+  - Docker,
   - JSON web token,
   - express validator,
   - bcrypt.
